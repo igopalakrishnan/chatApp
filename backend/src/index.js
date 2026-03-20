@@ -13,12 +13,14 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  }),
-);
+app.use(cors({
+  origin: [
+    "http://localhost:5173",              // dev
+    "https://chatapp-1-10fd.onrender.com" // prod frontend
+  ],
+  credentials: true,
+}));
+
 
 
 //home
@@ -27,6 +29,12 @@ app.get("/", (req, res) => {
 })
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+
+app.use((req, res, next) => {
+  console.log("Cookies received:", req.cookies);
+  next();
+});
+
 
 
 server.listen(PORT, () => {
