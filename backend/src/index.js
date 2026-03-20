@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://mern-chatapp-fg0y.onrender.com",
     credentials: true,
   }),
 );
