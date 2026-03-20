@@ -20,6 +20,17 @@ app.use(
   }),
 );
 
+app.use((req, res, next) => {
+  console.log("Request Origin:", req.headers.origin);
+  next();
+});
+
+app.use((req, res, next) => {
+  console.log("Incoming request:", req.method, req.url, "Cookies:", req.cookies);
+  next();
+});
+
+
 //home
 app.get("/", (req, res) => {
   res.send("<h1>Chat-App Application</h1>")
