@@ -7,7 +7,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["https://mern-chatapp-fg0y.onrender.com"],
+    origin: [process.env.CLIENT_URL],
   },
 });
 
@@ -24,12 +24,24 @@ io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
   if (userId) userSocketMap[userId] = socket.id;
 
+  io.use((socket, next) => {
+  const token = socket.handshake.auth.token;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    socket.userId = decoded.id;
+    next();
+  } catch (err) {
+    next(new Error("Unauthorized"));
+  }
+});
+
+
   //io.emit() is used to send events to all the connected clients
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
   socket.on("disconnect", () => {
     console.log("A user disconnected", socket.id);
-    delete userSocketMap[userId];
+    delete userSocketMap[socket.userId];
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
 });

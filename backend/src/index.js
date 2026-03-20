@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://mern-chatapp-fg0y.onrender.com",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   }),
 );
