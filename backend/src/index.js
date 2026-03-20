@@ -15,28 +15,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: "http://localhost:5173",
     credentials: true,
   }),
 );
 
-app.use((req, res, next) => {
-  console.log("Request Origin:", req.headers.origin);
-  next();
-});
-
-app.use((req, res, next) => {
-  console.log("Incoming request:", req.method, req.url, "Cookies:", req.cookies);
-  next();
-});
-
-
-//home
-app.get("/", (req, res) => {
-  res.send("<h1>Chat-App Application</h1>")
-})
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+
 
 server.listen(PORT, () => {
   console.log("server is running on port:" + PORT);

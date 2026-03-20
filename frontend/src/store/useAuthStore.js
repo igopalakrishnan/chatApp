@@ -3,7 +3,7 @@ import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
-const BASE_URL = "https://chatapp-backend-3btz.onrender.com/";
+const BASE_URL = "http://localhost:5000"
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
@@ -87,11 +87,10 @@ export const useAuthStore = create((set, get) => ({
     if (!authUser || get().socket?.connected) return;
 
     const socket = io(BASE_URL, {
-      query: { userId: authUser._id },
-      withCredentials: true,
-      transports: ["websocket"], // helps avoid polling issues
+      query: {
+        userId: authUser._id,
+      },
     });
-
     socket.connect();
 
     set({ socket: socket });
