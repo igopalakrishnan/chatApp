@@ -20,6 +20,11 @@ app.use(
   }),
 );
 
+
+//home
+app.get("/", (req, res) => {
+  res.send("<h1>Chat-app Application</h1>")
+})
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
