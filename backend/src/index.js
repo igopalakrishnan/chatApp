@@ -22,7 +22,7 @@ app.use(
 
 //home
 app.get("/", (req, res) => {
-  res.send("<h1>ToDo Application</h1>")
+  res.send("<h1>Chat-App Application</h1>")
 })
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
